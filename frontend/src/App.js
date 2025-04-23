@@ -16,6 +16,7 @@ function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [token, setToken] = useState("");
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -24,7 +25,6 @@ function App() {
       const res = await axios.get(backendUrl + "/api/product/list");
       if (res.data.success) {
         setProducts(res.data.products);
-        console.log(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -35,9 +35,17 @@ function App() {
     getProductsData();
   }, []);
 
+  useEffect(() => {
+    if (!token && localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token"));
+    }
+  }, []);
+
   const updateCartQuantity = (product, quantityChange) => {
     const productExist = cart.find((item) => item._id === product._id);
-    products.find((item) => item._id === product._id).inCart = true;
+    if (token !== "") {
+      products.find((item) => item._id === product._id).inCart = true;
+    }
     if (productExist) {
       setCart(
         cart.map((item) =>
@@ -64,7 +72,9 @@ function App() {
 
   const addWishlist = (product) => {
     const productExist = wishlist.find((item) => item._id === product._id);
-    products.find((item) => item._id === product._id).inWishlist = true;
+    if (token !== "") {
+      products.find((item) => item._id === product._id).inWishlist = true;
+    }
     if (productExist) {
       setWishlist(
         wishlist.map((item) =>
@@ -92,7 +102,14 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header cartLength={cart.length} wishlistLength={wishlist.length} />
+        <Header
+          cartLength={cart.length}
+          wishlistLength={wishlist.length}
+          token={token}
+          setToken={setToken}
+          setCart={setCart}
+          setWishlist={setWishlist}
+        />
         <Routes>
           <Route
             path="/"
@@ -140,7 +157,16 @@ function App() {
               />
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <Login
+                token={token}
+                setToken={setToken}
+                backendUrl={backendUrl}
+              />
+            }
+          />
         </Routes>
         <Footer />
         <ScrollToTOP />

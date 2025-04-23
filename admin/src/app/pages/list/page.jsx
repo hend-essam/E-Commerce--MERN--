@@ -85,21 +85,26 @@ const List = () => {
                 key={product._id}
                 className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 items-center py-4 border-b text-lg"
               >
-                <Image
-                  src={product.image[0]}
-                  width={80}
-                  height={80}
-                  alt="product image"
-                  className="object-cover"
-                />
-                <div>{product.name}</div>
-                <div>{product.category}</div>
-                <div>${product.price}</div>
+                {/* Image Container - Fixed Solution */}
+                <div className="relative w-20 h-24">
+                  <Image
+                    src={product.image[0]}
+                    fill
+                    priority
+                    alt={`${product.name} image`}
+                    className="object-cover"
+                    sizes="80px"
+                  />
+                </div>
+
+                <div className="truncate">{product.name}</div>
+                <div className="capitalize">{product.category}</div>
+                <div>${product.price.toFixed(2)}</div>
                 <button
                   onClick={() => removeProduct(product._id)}
-                  className="bg-red-500 font-mono text-white px-3.5 pt-2 pb-2.5 rounded-md md:text-center text-lg min-w-10 max-w-12"
+                  className="bg-red-500 text-white px-3.5 py-2 rounded-md text-lg w-10 h-10 flex items-center justify-center hover:bg-red-600 transition-colors"
                 >
-                  x
+                  ×
                 </button>
               </div>
             ))}

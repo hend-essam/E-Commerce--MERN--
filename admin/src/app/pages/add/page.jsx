@@ -104,7 +104,7 @@ const Add = () => {
         <label htmlFor="category">Product Category</label>
         <select
           name="category"
-          id="price"
+          id="category"
           required
           className="py-2 px-1 bg-transparent rounded-md"
           style={{

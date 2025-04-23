@@ -8,13 +8,20 @@ import { ToastContainer } from "react-toastify";
 export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const AuthWrapper = ({ children }) => {
-  const [token, setToken] = useState(
-    localStorage.getItem("token") ? localStorage.getItem("token") : ""
-  );
+  const [token, setToken] = useState("");
 
   useEffect(() => {
-    if (token) {
-      localStorage.setItem("token", token);
+    const storedToken = localStorage.getItem("token") || "";
+    setToken(storedToken);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (token) {
+        localStorage.setItem("token", token);
+      } else {
+        localStorage.removeItem("token");
+      }
     }
   }, [token]);
 
