@@ -5,8 +5,19 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    cartData: { type: Object, default: {} },
-    wishlistData: { type: Object, default: {} },
+
+    cartData: [
+      {
+        itemId: { type: String, required: true },
+        quantity: { type: Number, default: 1 },
+      },
+    ],
+
+    wishlistData: [
+      {
+        itemId: { type: String, required: true },
+      },
+    ],
   },
   { minimize: false }
 );

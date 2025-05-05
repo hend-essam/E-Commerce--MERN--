@@ -94,14 +94,12 @@ function Login({ token, setToken, backendUrl }) {
               type="email"
               placeholder="Email"
               required
-              value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <input
               type="password"
               placeholder="Password"
               required
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <span
@@ -122,21 +120,18 @@ function Login({ token, setToken, backendUrl }) {
               type="text"
               placeholder="Name"
               required
-              value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <input
               type="email"
               placeholder="Email"
               required
-              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"
               placeholder="Password"
               required
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <input
