@@ -6,7 +6,13 @@ import Login from "./page";
 import Menu from "./components/Menu";
 import { ToastContainer } from "react-toastify";
 
-export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+const defaultBackend =
+  process.env.NODE_ENV === "production"
+    ? "https://e-commerce-backend-mu-cyan.vercel.app"
+    : "http://localhost:4000";
+
+export const backendUrl =
+  process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "") || defaultBackend;
 
 const AuthWrapper = ({ children }) => {
   const [token, setToken] = useState("");
