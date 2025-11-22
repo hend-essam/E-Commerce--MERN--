@@ -17,6 +17,7 @@ function App() {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [token, setToken] = useState("");
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -161,6 +162,42 @@ function App() {
     }));
   }, [products, cart, wishlist]);
 
+  const placeOrder = async ({ fullName, address }) => {
+    if (!cart.length) {
+      alert("Your cart is empty.");
+      return false;
+    }
+
+    if (!token) {
+      alert("Please log in to place an order.");
+      return false;
+    }
+
+    try {
+      setIsPlacingOrder(true);
+      const res = await axios.post(
+        `${backendUrl}/api/order/place`,
+        { fullName, address },
+        { headers: { token } }
+      );
+
+      if (res.data.success) {
+        alert("Order placed successfully!");
+        setCart([]);
+        return true;
+      } else {
+        alert(res.data.message || "Failed to place order");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Something went wrong while placing your order.");
+      return false;
+    } finally {
+      setIsPlacingOrder(false);
+    }
+  };
+
   return (
     <BrowserRouter>
       <Header
@@ -204,6 +241,8 @@ function App() {
               remove={decreaseQuantity}
               add={handleAdd}
               handleRemove={handleRemove}
+              placeOrder={placeOrder}
+              isPlacingOrder={isPlacingOrder}
             />
           }
         />
