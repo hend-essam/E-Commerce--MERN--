@@ -8,12 +8,15 @@ import Image from "next/image";
 
 const List = () => {
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [removingId, setRemovingId] = useState("");
   const router = useRouter();
 
   const token = localStorage.getItem("token");
 
   const fetchList = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(backendUrl + "/api/product/list");
       if (res.data.success) {
         setList(res.data.products);
@@ -21,11 +24,14 @@ const List = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const removeProduct = async (id) => {
     try {
+      setRemovingId(id);
       const res = await axios.post(
         backendUrl + "/api/product/remove",
         { id },
@@ -48,7 +54,12 @@ const List = () => {
   return (
     <div className="w-full flex flex-col items-center gap-10">
       <h1 className="font-bold text-2xl w-fit">ALL PRODUCTS</h1>
-      {list.length === 0 ? (
+      {loading ? (
+        <div className="flex flex-col gap-3 items-center text-gray-500">
+          <div className="w-12 h-12 border-4 border-[#8b684c] border-t-transparent rounded-full animate-spin" />
+          <p className="text-lg font-medium">Loading products...</p>
+        </div>
+      ) : list.length === 0 ? (
         <div className="flex flex-col gap-5 p-5">
           <h1 className="font-bold text-gray-500 text-2xl w-fit">
             No Products
@@ -102,9 +113,10 @@ const List = () => {
                 <div>${product.price.toFixed(2)}</div>
                 <button
                   onClick={() => removeProduct(product._id)}
-                  className="bg-red-500 text-white px-3.5 py-2 rounded-md text-lg w-10 h-10 flex items-center justify-center hover:bg-red-600 transition-colors"
+                  disabled={removingId === product._id}
+                  className={`bg-red-500 text-white px-3.5 py-2 rounded-md text-lg w-24 h-10 flex items-center justify-center hover:bg-red-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed`}
                 >
-                  ×
+                  {removingId === product._id ? "Removing" : "Remove"}
                 </button>
               </div>
             ))}

@@ -102,7 +102,10 @@ const Orders = () => {
       </div>
 
       {loading ? (
-        <p className="text-lg text-gray-500">Loading orders...</p>
+        <div className="flex flex-col gap-3 items-center text-gray-500">
+          <div className="w-12 h-12 border-4 border-[#8b684c] border-t-transparent rounded-full animate-spin" />
+          <p className="text-lg font-medium">Loading orders...</p>
+        </div>
       ) : memoizedOrders.length === 0 ? (
         <div className="text-gray-600 text-lg">No orders available.</div>
       ) : (
@@ -139,8 +142,17 @@ const Orders = () => {
                       statusStyles[order.status] || ""
                     } ${updating === order._id ? "opacity-60 cursor-not-allowed" : ""}`}
                   >
-                    {order.status}
-                    <span className="text-xs">▾</span>
+                    {updating === order._id ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        Updating...
+                      </span>
+                    ) : (
+                      <>
+                        {order.status}
+                        <span className="text-xs">▾</span>
+                      </>
+                    )}
                   </button>
                   {openOrderId === order._id && (
                     <ul className="absolute z-10 mt-2 w-40 bg-white border border-[#8b684c33] rounded-xl shadow-lg overflow-hidden">
