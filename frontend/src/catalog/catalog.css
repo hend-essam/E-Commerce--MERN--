@@ -40,12 +40,12 @@
   gap: 42px 32px;
 }
 .catalog-item{
-  max-width: 210px;
+  width: 210px;
 }
 .catalog-item img{
-  min-width: 210px;
-  max-height: 260px;
-  min-height: 260px;
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
   transition: 0.3s;
 }
 .catalog-item img:hover{
