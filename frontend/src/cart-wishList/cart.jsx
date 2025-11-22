@@ -2,14 +2,23 @@ import "./cart-wishlist.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Cart({ cart, remove, add, handleRemove }) {
+function Cart({
+  cart,
+  remove,
+  add,
+  handleRemove,
+  placeOrder,
+  isPlacingOrder = false,
+}) {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     address: "",
   });
+  const [formError, setFormError] = useState("");
 
   const handleCheckout = () => {
+    setFormError("");
     setShowForm(true);
   };
 
@@ -20,10 +29,29 @@ function Cart({ cart, remove, add, handleRemove }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting checkout with:", formData);
-    // Send to backend, clear cart, etc.
+    setFormError("");
+
+    if (!formData.name.trim() || !formData.address.trim()) {
+      setFormError("Please fill in all fields.");
+      return;
+    }
+
+    if (typeof placeOrder !== "function") {
+      setFormError("Ordering service unavailable. Please try again later.");
+      return;
+    }
+
+    const success = await placeOrder({
+      fullName: formData.name.trim(),
+      address: formData.address.trim(),
+    });
+
+    if (success) {
+      setFormData({ name: "", address: "" });
+      setShowForm(false);
+    }
   };
 
   return (
@@ -76,8 +104,12 @@ function Cart({ cart, remove, add, handleRemove }) {
           {cart.reduce((total, item) => total + item.price * item.quantity, 0)}
         </p>
         {cart.length > 0 && (
-          <button className="checkout-btn" onClick={handleCheckout}>
-            CHECKOUT
+          <button
+            className="checkout-btn"
+            onClick={handleCheckout}
+            disabled={isPlacingOrder}
+          >
+            {isPlacingOrder ? "PROCESSING..." : "CHECKOUT"}
           </button>
         )}
       </div>
@@ -92,6 +124,7 @@ function Cart({ cart, remove, add, handleRemove }) {
       {showForm && (
         <form className="checkout-form" onSubmit={handleSubmit}>
           <h3>Checkout Information</h3>
+          {formError && <p className="error-text">{formError}</p>}
           <input
             type="text"
             name="name"
@@ -108,8 +141,8 @@ function Cart({ cart, remove, add, handleRemove }) {
             onChange={handleChange}
             required
           />
-          <button type="submit" className="submit-order-btn">
-            Submit Order
+          <button type="submit" className="submit-order-btn" disabled={isPlacingOrder}>
+            {isPlacingOrder ? "Submitting..." : "Submit Order"}
           </button>
         </form>
       )}
