@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import Login from "./page";
 import Menu from "./components/Menu";
 import { ToastContainer } from "react-toastify";
@@ -9,6 +10,8 @@ export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const AuthWrapper = ({ children }) => {
   const [token, setToken] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token") || "";
@@ -24,6 +27,12 @@ const AuthWrapper = ({ children }) => {
       }
     }
   }, [token]);
+
+  useEffect(() => {
+    if (token && pathname === "/") {
+      router.replace("/pages/add");
+    }
+  }, [token, pathname, router]);
 
   return token === "" ? (
     <Login setToken={setToken} />
