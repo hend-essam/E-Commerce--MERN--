@@ -16,6 +16,7 @@ const statusOptions = [
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const [updating, setUpdating] = useState("");
   const [token, setToken] = useState("");
   const [openOrderId, setOpenOrderId] = useState(null);
@@ -35,6 +36,7 @@ const Orders = () => {
         return;
       }
       setLoading(true);
+      setHasFetched(false);
       const res = await axios.get(`${backendUrl}/api/order/list`, {
         headers: { token },
       });
@@ -48,6 +50,7 @@ const Orders = () => {
       toast.error(error.message);
     } finally {
       setLoading(false);
+      setHasFetched(true);
     }
   };
 
@@ -101,7 +104,7 @@ const Orders = () => {
         </button>
       </div>
 
-      {loading ? (
+      {loading || !hasFetched ? (
         <div className="flex flex-col gap-3 items-center text-gray-500">
           <div className="w-12 h-12 border-4 border-[#8b684c] border-t-transparent rounded-full animate-spin" />
           <p className="text-lg font-medium">Loading orders...</p>
