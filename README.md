@@ -1,3 +1,4 @@
-dashboard 
-email : admin@gmail.com
-pass : 200228
+*dashboard*
+
+- email : admin@gmail.com
+- pass : 200228
