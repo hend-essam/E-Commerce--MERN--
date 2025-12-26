@@ -219,3 +219,24 @@ form:last-child input:first-child {
 form:first-child {
   padding-top: 12px;
 }
+.admin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10px;
+  font-weight: small;
+  font-size: 14px;
+  color: rgb(100, 100, 100);
+}
+.admin a {
+  margin: 0;
+  padding-left: 5px;
+  font-weight: small;
+  font-size: 14px;
+  color: #0f1192a4;
+  text-decoration: #0f1192a4 underline;
+}
+.admin a:hover {
+  color: #0f1192;
+  text-decoration: #0f1192 underline;
+}

@@ -114,6 +114,10 @@ function Login({ token, setToken, backendUrl }) {
               value="Submit"
               onClick={(e) => onSubmitHandlar(e)}
             />
+            <div className="admin">
+              Admin?
+              <a href="https://e-commerce-mern-phi-kohl.vercel.app">Login</a>
+            </div>
           </form>
           <form className={`${slide === "sign-up" ? "sign-up-form" : ""}`}>
             <input
@@ -139,6 +143,10 @@ function Login({ token, setToken, backendUrl }) {
               value="Submit"
               onClick={(e) => onSubmitHandlar(e)}
             />
+            <div className="admin">
+              Admin?
+              <a href="https://e-commerce-mern-phi-kohl.vercel.app">Login</a>
+            </div>
           </form>
         </div>
         <form
