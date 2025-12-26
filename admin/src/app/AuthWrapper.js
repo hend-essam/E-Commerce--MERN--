@@ -11,8 +11,7 @@ const defaultBackend =
     ? "https://e-commerce-backend-mu-cyan.vercel.app"
     : "http://localhost:4000";
 
-export const backendUrl =
-  process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "") || defaultBackend;
+export const backendUrl = "https://e-commerce-backend-mu-cyan.vercel.app";
 
 const AuthWrapper = ({ children }) => {
   const [token, setToken] = useState("");

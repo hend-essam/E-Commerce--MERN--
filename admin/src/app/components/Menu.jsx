@@ -29,7 +29,7 @@ const Menu = ({ setToken }) => {
   ];
 
   return (
-    <div className="h-screen px-5 pt-2 pb-10 border-r-2 flex flex-col gap-10 items-center w-20 md:w-fit">
+    <div className="sticky top-0 h-screen px-5 pt-2 pb-10 border-r-2 flex flex-col gap-10 items-center w-20 md:w-fit">
       <div>
         <Logo />
         <p className="text-center mt-[-20px] text-gray-600 hidden md:block">
