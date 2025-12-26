@@ -82,6 +82,40 @@ const Login = ({ setToken }) => {
           Login
         </button>
       </form>
+      <div className="flex flex-col gap-2 border-2 border-[#8b684c] p-2 rounded-lg">
+        <h2 className="font-bold border-b pb-1 border-[#8b684c]">
+          To try my project you can login with:
+        </h2>
+        <div className="flex flex-col">
+          <span className="text-gray-500">
+            <b>Email:</b> admin@gmail.com
+          </span>
+          <span className="text-gray-500">
+            <b>Password:</b> 200228
+          </span>
+        </div>
+      </div>
+      <div className="font-bold">
+        To see my full project you can visit:
+        <a
+          className="font-medium block text-[#0f1192] decoration-[#0f1192] underline"
+          href="https://e-commerce-mern-mocha.vercel.app"
+          target="_blank"
+        >
+          https://e-commerce-mern-mocha.vercel.app
+        </a>
+      </div>
+      <div>
+        <span className="text-gray-500">Made by </span>
+        <a
+          className="text-[#d30617] font-bold decoration-[#e81224] underline"
+          href="https://github.com/hend-essam"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Hend❤️
+        </a>
+      </div>
     </div>
   );
 };
