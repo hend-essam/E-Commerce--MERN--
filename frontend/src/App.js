@@ -9,7 +9,7 @@ import Wishlist from "./cart-wishList/wishlist";
 import Login from "./login/login";
 import Footer from "./footer/footer";
 import ScrollToTOP from "./scroll-to-top";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import axios from "axios";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
-  const getProductsData = async () => {
+  const getProductsData = useCallback(async () => {
     try {
       const res = await axios.get(`${backendUrl}/api/product/list`);
       if (res.data.success) {
@@ -30,9 +30,9 @@ function App() {
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  };
+  }, [backendUrl]);
 
-  const getCartData = async () => {
+  const getCartData = useCallback(async () => {
     try {
       if (!token) return;
       const res = await axios.get(`${backendUrl}/api/cart/get`, {
@@ -55,7 +55,7 @@ function App() {
     } catch (error) {
       console.error("Error fetching cart:", error);
     }
-  };
+  }, [backendUrl, token, products]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -66,13 +66,13 @@ function App() {
 
   useEffect(() => {
     getProductsData();
-  }, []);
+  }, [getProductsData]);
 
   useEffect(() => {
     if (token && products.length > 0) {
       getCartData();
     }
-  }, [token, products]);
+  }, [token, products, getCartData]);
 
   const updateCartQuantity = async (product, quantityChange) => {
     const existingProduct = cart.find((item) => item._id === product._id);

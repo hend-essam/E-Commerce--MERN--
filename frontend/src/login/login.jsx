@@ -47,7 +47,7 @@ function Login({ token, setToken, backendUrl }) {
     if (token) {
       navigate("/");
     }
-  }, [token]);
+  }, [token, navigate]);
 
   return (
     <div className="login">
