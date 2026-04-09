@@ -14,7 +14,7 @@ const defaultBackend =
 export const backendUrl = "https://e-commerce-backend-mu-cyan.vercel.app";
 
 const AuthWrapper = ({ children }) => {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -24,12 +24,11 @@ const AuthWrapper = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (token) {
-        localStorage.setItem("token", token);
-      } else {
-        localStorage.removeItem("token");
-      }
+    if (token === null) return;
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
     }
   }, [token]);
 
@@ -38,6 +37,8 @@ const AuthWrapper = ({ children }) => {
       router.replace("/pages/add");
     }
   }, [token, pathname, router]);
+
+  if (token === null) return null;
 
   return token === "" ? (
     <Login setToken={setToken} />

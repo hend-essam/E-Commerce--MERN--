@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -21,6 +22,7 @@ const Login = ({ setToken }) => {
       });
       console.log(res);
       if (res.data.success) {
+        setSuccess(true);
         setToken(res.data.token);
         router.push("/pages/add");
       } else toast.error(res.data.message);
@@ -30,94 +32,99 @@ const Login = ({ setToken }) => {
     }
   };
 
-  return (
-    <div className="w-screen h-screen flex justify-center items-center flex-col gap-3">
-      <ToastContainer />
-      <div className="flex items-center gap-1">
-        <Logo hideWord />
-        <h1 className="text-2xl font-bold">Admin Panel</h1>
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col items-center justify-evenly gap-5 shadow-md rounded-lg px-7 h-[300px] w-[250px]"
-        style={{
-          boxShadow: "0 0 20px 10px #c7b188",
-          border: "1px solid rgb(139 104 76 / 51%)",
-        }}
-      >
-        <div className="flex flex-col w-full">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            required
-            className="py-2 px-1 bg-transparent"
-            style={{
-              borderBottom: "2px solid rgb(139 104 76 / var(--tw-bg-opacity))",
-            }}
-          />
+  if (success) return null;
+  if (!success) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center flex-col gap-3">
+        <ToastContainer />
+        <div className="flex items-center gap-1">
+          <Logo hideWord />
+          <h1 className="text-2xl font-bold">Admin Panel</h1>
         </div>
-        <div className="flex flex-col w-full">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            required
-            className="py-2 px-1 bg-transparent"
-            style={{
-              borderBottom: "2px solid rgb(139 104 76 / var(--tw-bg-opacity))",
-            }}
-          />
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center justify-evenly gap-5 shadow-md rounded-lg px-7 h-[300px] w-[250px]"
+          style={{
+            boxShadow: "0 0 20px 10px #c7b188",
+            border: "1px solid rgb(139 104 76 / 51%)",
+          }}
+        >
+          <div className="flex flex-col w-full">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              required
+              className="py-2 px-1 bg-transparent"
+              style={{
+                borderBottom:
+                  "2px solid rgb(139 104 76 / var(--tw-bg-opacity))",
+              }}
+            />
+          </div>
+          <div className="flex flex-col w-full">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              required
+              className="py-2 px-1 bg-transparent"
+              style={{
+                borderBottom:
+                  "2px solid rgb(139 104 76 / var(--tw-bg-opacity))",
+              }}
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-[#8b684c] text-white px-4 py-1.5 rounded-full text-lg"
+          >
+            Login
+          </button>
+        </form>
+        <div className="flex flex-col gap-2 border-2 border-[#8b684c] p-2 rounded-lg">
+          <h2 className="font-bold border-b pb-1 border-[#8b684c]">
+            To try my project you can login with:
+          </h2>
+          <div className="flex flex-col">
+            <span className="text-gray-500">
+              <b>Email:</b> admin@gmail.com
+            </span>
+            <span className="text-gray-500">
+              <b>Password:</b> 200228
+            </span>
+          </div>
         </div>
-        <button
-          type="submit"
-          className="bg-[#8b684c] text-white px-4 py-1.5 rounded-full text-lg"
-        >
-          Login
-        </button>
-      </form>
-      <div className="flex flex-col gap-2 border-2 border-[#8b684c] p-2 rounded-lg">
-        <h2 className="font-bold border-b pb-1 border-[#8b684c]">
-          To try my project you can login with:
-        </h2>
-        <div className="flex flex-col">
-          <span className="text-gray-500">
-            <b>Email:</b> admin@gmail.com
-          </span>
-          <span className="text-gray-500">
-            <b>Password:</b> 200228
-          </span>
+        <div className="font-bold">
+          To see my full project you can visit:
+          <a
+            className="font-medium block text-[#0f1192] decoration-[#0f1192] underline"
+            href="https://e-commerce-mern-mocha.vercel.app"
+            target="_blank"
+          >
+            https://e-commerce-mern-mocha.vercel.app
+          </a>
+        </div>
+        <div>
+          <span className="text-gray-500">Made by </span>
+          <a
+            className="text-[#d30617] font-bold decoration-[#e81224] underline"
+            href="https://github.com/hend-essam"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Hend❤️
+          </a>
         </div>
       </div>
-      <div className="font-bold">
-        To see my full project you can visit:
-        <a
-          className="font-medium block text-[#0f1192] decoration-[#0f1192] underline"
-          href="https://e-commerce-mern-mocha.vercel.app"
-          target="_blank"
-        >
-          https://e-commerce-mern-mocha.vercel.app
-        </a>
-      </div>
-      <div>
-        <span className="text-gray-500">Made by </span>
-        <a
-          className="text-[#d30617] font-bold decoration-[#e81224] underline"
-          href="https://github.com/hend-essam"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Hend❤️
-        </a>
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Login;
