@@ -51,7 +51,6 @@ e-commerce-furniture-React-main/
 - **Authentication**: JWT (jsonwebtoken)
 - **Password Hashing**: bcrypt
 - **File Upload**: Multer + Cloudinary
-- **Payment**: Stripe, Razorpay
 - **Validation**: validator
 - **Environment**: dotenv
 
