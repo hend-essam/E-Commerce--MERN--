@@ -97,7 +97,7 @@ const Login = ({ setToken }) => {
               <b>Email:</b> admin@gmail.com
             </span>
             <span className="text-gray-500">
-              <b>Password:</b> 200228
+              <b>Password:</b> 23102001
             </span>
           </div>
         </div>
